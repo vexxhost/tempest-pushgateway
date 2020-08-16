@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import os
 import io
 import subprocess
@@ -19,6 +20,8 @@ import sys
 import tempfile
 import testtools
 
+from config_tempest import main as tempestconf
+import openstack
 import prometheus_client
 import subunit
 
@@ -82,22 +85,29 @@ class PrometheusResult(testtools.TestResult):
 
 
 def main():
-    tests = "\n".join(sys.argv[1:])
+    parser = argparse.ArgumentParser()
+    cloud_config = openstack.config.OpenStackConfig()
+
+    parser.add_argument('tests', metavar='test', nargs='+',
+                        help='Tempest tests to run')
+    cloud_config.register_argparse_arguments(parser, sys.argv)
+
+    args = parser.parse_args()
 
     tempest_conf = tempfile.NamedTemporaryFile(mode='w+')
     accounts_file = tempfile.NamedTemporaryFile(mode='w+')
 
-    result = subprocess.call([
-        'discover-tempest-config', '--debug', '--non-admin',
-        '--convert-to-raw',
-        '--create-accounts-file', accounts_file.name,
-        '--out', tempest_conf.name
-    ])
-    if result != 0:
-        return
+    cloud_creds = tempestconf.get_cloud_creds(args)
+    tempestconf.config_tempest(
+        cloud_creds=cloud_creds, convert_to_raw=True,
+        create_accounts_file=accounts_file.name, debug=True, non_admin=True,
+        out=tempest_conf.name, remove=[
+            'network.floating_network_name'
+        ]
+    )
 
     with tempfile.NamedTemporaryFile(mode='w') as whitelist_file:
-        whitelist_file.write(tests)
+        whitelist_file.write("\n".join(args.tests))
         whitelist_file.flush()
 
         result = subprocess.run([
