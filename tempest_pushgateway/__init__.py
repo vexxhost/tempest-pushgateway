@@ -89,6 +89,7 @@ def main():
 
     result = subprocess.call([
         'discover-tempest-config', '--debug', '--non-admin',
+        '--convert-to-raw',
         '--create-accounts-file', accounts_file.name,
         '--out', tempest_conf.name
     ])
