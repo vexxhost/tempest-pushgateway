@@ -32,7 +32,7 @@ class PrometheusResult(testtools.TestResult):
         self._last_run_result = prometheus_client.Enum(
             'tempest_last_run_result',
             'Result of the last Tempest run',
-            labelnames=['test'],
+            labelnames=['instance'],
             states=[
                 'success',
                 'failure',
@@ -46,13 +46,13 @@ class PrometheusResult(testtools.TestResult):
         self._last_run_unixtime = prometheus_client.Gauge(
             'tempest_last_run_unixtime',
             'Time of the last Tempest test run',
-            labelnames=['test'],
+            labelnames=['instance'],
             registry=self._registry
         )
         self._last_run_time = prometheus_client.Gauge(
             'tempest_last_run_time',
             'Run-time for the last Tempest run',
-            labelnames=['test'],
+            labelnames=['instance'],
             registry=self._registry
         )
 
@@ -65,7 +65,7 @@ class PrometheusResult(testtools.TestResult):
             print(test.__dict__)
 
         labels = {
-            'test': test.id(),
+            'instance': test.id(),
         }
 
         self._last_run_unixtime.labels(**labels).set(end_timestamp)
