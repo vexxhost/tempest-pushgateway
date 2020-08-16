@@ -1,0 +1,8 @@
+.tox
+.stestr
+.stestr.conf
+etc
+*.egg-info
+__pycache__
+*.pyc
+tempest.log

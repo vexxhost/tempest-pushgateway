@@ -1,0 +1,5 @@
+heat-tempest-plugin
+prometheus_client
+python-tempestconf
+tempest
+tempest_horizon

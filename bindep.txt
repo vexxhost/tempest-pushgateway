@@ -1,0 +1,3 @@
+gcc [compile]
+libc6-dev [compile]
+libc6
