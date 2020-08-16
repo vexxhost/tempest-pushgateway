@@ -16,5 +16,8 @@ Usage
 You can use the Docker container which is published to ``vexxhost/tempest-pushgateway``
 and provide your OpenStack creentials in the environment, alternatively you can
 simply install this locally and call ``tempest-pushgateway`` directly.  The
-only requirement is to set ``TEMPEST_PROMETHEUS`` environment variable to point
-towards your Prometheus Pushgateway.
+tool is entirely configured using environment variables:
+
+- ``TEMPEST_PROMETHEUS`` (required): Prometheus Pushgateway address
+- ``TEMPEST_HORIZON_URL``: URL for Horizon if ``python-tempestconf`` fails to
+  detect it.

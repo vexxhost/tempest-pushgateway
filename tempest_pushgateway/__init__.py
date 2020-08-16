@@ -97,11 +97,21 @@ def main():
     tempest_conf = tempfile.NamedTemporaryFile(mode='w+')
     accounts_file = tempfile.NamedTemporaryFile(mode='w+')
 
+    overrides = [
+        ('validation', 'connect_method', 'fixed'),
+    ]
+
+    if os.getenv('TEMPEST_HORIZON_URL'):
+        url = os.getenv('TEMPEST_HORIZON_URL')
+        overrides.append(('service_available', 'horizon', 'True'))
+        overrides.append(('dashboard', 'dashboard_url', url))
+        overrides.append(('dashboard', 'login_url', url + '/auth/login/'))
+
     cloud_creds = tempestconf.get_cloud_creds(args)
     tempestconf.config_tempest(
         cloud_creds=cloud_creds, convert_to_raw=True,
         create_accounts_file=accounts_file.name, debug=True, non_admin=True,
-        out=tempest_conf.name, remove=[
+        out=tempest_conf.name, overrides=overrides, remove=[
             'network.floating_network_name'
         ]
     )
