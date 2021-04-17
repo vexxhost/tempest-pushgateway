@@ -20,3 +20,5 @@ FROM docker.io/opendevorg/python-base:3.7
 COPY --from=builder /output/ /output
 RUN /output/install-from-bindep && rm -rf /output
 ENTRYPOINT ["/usr/local/bin/tempest-pushgateway"]
+
+ADD https://opendev.org/osf/python-tempestconf/raw/commit/d4c30061e5a842852f51afee92894abd47d12aac/config_tempest/services/horizon.py /usr/local/lib/python3.7/site-packages/config_tempest/services/horizon.py
