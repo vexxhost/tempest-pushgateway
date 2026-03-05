@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM docker.io/opendevorg/python-builder:3.7 as builder
+FROM docker.io/opendevorg/python-builder:3.7@sha256:fc32eb0a9fbd8d798e7d206e953297395d9649f7a8764ba31db0101d1beb2b08 as builder
 COPY . /tmp/src
 RUN assemble
 
-FROM docker.io/opendevorg/python-base:3.7
+FROM docker.io/opendevorg/python-base:3.7@sha256:58551f256d7b75bca2056025fddf3d5549cbfa35d92ed9eae8b50815fa330a18
 COPY --from=builder /output/ /output
 RUN /output/install-from-bindep && rm -rf /output
 ENTRYPOINT ["/usr/local/bin/tempest-pushgateway"]
