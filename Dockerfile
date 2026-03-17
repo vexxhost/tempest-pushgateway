@@ -16,7 +16,7 @@ FROM docker.io/opendevorg/python-builder:3.7@sha256:fc32eb0a9fbd8d798e7d206e9532
 COPY . /tmp/src
 RUN assemble
 
-FROM docker.io/opendevorg/python-base:3.7@sha256:58551f256d7b75bca2056025fddf3d5549cbfa35d92ed9eae8b50815fa330a18
+FROM docker.io/opendevorg/python-base:3.9@sha256:60574b4bc0c0055e3d706ab540fb130dd8f31a99931211ab87d4e3075710842c
 COPY --from=builder /output/ /output
 RUN /output/install-from-bindep && rm -rf /output
 ENTRYPOINT ["/usr/local/bin/tempest-pushgateway"]
