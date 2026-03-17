@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM docker.io/opendevorg/python-builder:3.7@sha256:fc32eb0a9fbd8d798e7d206e953297395d9649f7a8764ba31db0101d1beb2b08 as builder
+FROM docker.io/opendevorg/python-builder:3.9@sha256:c82ce4eea34c38fba6a00db34f361c068271caef46c347c5d27b08ceebc528de as builder
 COPY . /tmp/src
 RUN assemble
 
